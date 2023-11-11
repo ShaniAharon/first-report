@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import { carService } from './services/car.service.js'
 import { userService } from './services/user.service.js'
 import { loggerService } from './services/logger.service.js';
+import { personService } from './services/person.service.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express()
@@ -29,20 +30,50 @@ app.use(cookieParser()) // for res.cookies
 app.use(express.json()) // for req.body
 app.use(express.static('public'))
 
-
+app.post('/api/test', (req, res) => {
+const data = req.body
+console.log('data', data);
+personService.fillForm(data).then(res.json({ message: 'Data received successfully!' })).catch(err => {
+    loggerService.error('Cannot activate fill', err)
+    res.status(400).send('Cannot activate fill')
+})
+})
 
 // **************** Cars API ****************:
 // List
-app.get('/api/car', (req, res) => {
-    const { txt, maxPrice } = req.query
-    const filterBy = { txt, maxPrice: +maxPrice }
-    carService.query(filterBy)
-        .then(cars => {
-            res.send(cars)
+app.get('/api/person', (req, res) => {
+    const { name, num } =  req.query
+    const filterBy = { name, num }
+    personService.query(filterBy)
+        .then(persons => {
+            console.log('pers', persons);
+            res.send(persons)
         })
         .catch(err => {
-            loggerService.error('Cannot load cars', err)
-            res.status(400).send('Cannot load cars')
+            loggerService.error('Cannot load persons', err)
+            res.status(400).send('Cannot load persons')
+        })
+})
+
+//add person
+// Add
+app.post('/api/person', (req, res) => {
+    // const loggedinUser = userService.validateToken(req.cookies.loginToken)
+    // if (!loggedinUser) return res.status(401).send('Cannot add car')
+    const { name, num } = req.body
+
+    const person = {
+        name,
+        num,
+    }
+
+    personService.save(person)
+        .then(savedPerson => {
+            res.send(savedPerson)
+        })
+        .catch(err => {
+            loggerService.error('Cannot add person', err)
+            res.status(400).send('Cannot add person')
         })
 })
 

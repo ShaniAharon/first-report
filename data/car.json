@@ -1,14 +1,7 @@
 [
     {
-        "vendor": "Susita-88",
-        "speed": 137,
-        "price": 346,
-        "_id": "WjthL",
-        "owner": {
-            "_id": "u102",
-            "fullname": "Muki Baba",
-            "score": 10000
-        }
+       "name":"שני אהרון",
+       "num":"8445690"
     },
     {
         "vendor": "Susita-167",

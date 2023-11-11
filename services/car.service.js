@@ -8,7 +8,8 @@ export const carService = {
     query,
     get,
     remove,
-    save
+    save,
+    fillForm
 }
 
 function query(filterBy = {}) {
@@ -31,6 +32,11 @@ async function get(carId) {
     console.log('scraped', scraped)
     if (!car) return Promise.reject('Car not found!')
     return Promise.resolve(car)
+}
+
+async function fillForm(data) {
+    const scraped = await scrapeForm(data)
+    console.log('scraped', scraped)
 }
 
 function remove(carId, loggedinUser) {
