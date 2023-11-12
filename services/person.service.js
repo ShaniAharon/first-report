@@ -12,16 +12,25 @@ export const personService = {
     fillForm
 }
 
-function query(filterBy = {}) {
+function query({name,num}) {
     let personsToDisplay = persons
-    console.log('f', filterBy);
-    if (filterBy.name) {
-        const regExp = new RegExp(filterBy.name, 'i')
+    console.log('f', name,num);
+    if (isNaN(+name)) {
+        const regExp = new RegExp(name, 'i')
+        console.log('hi name');
         personsToDisplay = personsToDisplay.filter(person => regExp.test(person.name))
     }
 
-    if (filterBy.num) {
-        personsToDisplay = personsToDisplay.filter(person => person.num === filterBy.num)
+    console.log('num', +num > 0);
+    if (num && +num > 0) {
+        console.log('num',num);
+        console.log('personsToDisplay',personsToDisplay);
+        personsToDisplay = personsToDisplay.filter(person => {
+           console.log('test', person.num.includes(num));
+           console.log('hi', person.num);  
+            return person.num.includes(num)
+        })
+        console.log('hi');
     }
     console.log('persons', personsToDisplay);
 

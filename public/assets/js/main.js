@@ -19,6 +19,11 @@ if (navClose) {
     })
 }
 
+//filter
+async function filterList(value) {
+   await renderList({name:value, num:value})
+}
+
 /*==================== REMOVE MENU MOBILE ====================*/
 const navLink = document.querySelectorAll('.nav__link')
 
@@ -163,6 +168,14 @@ async function renderList(filterBy = {}) {
         await renderList(); // You can pass filterBy if needed
     };
 })();
+
+function debounce(func, timeout = 300){
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+  }
 
  
 /*==================== CHANGE BACKGROUND HEADER ====================*/
