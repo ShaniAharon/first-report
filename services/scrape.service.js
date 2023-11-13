@@ -27,7 +27,7 @@ await page.waitForNavigation()
   await dropdownElem.click();
 
 // Wait for the options to be visible
-await page.waitForSelector('div[jsname="WkxXtf"]');
+// await page.waitForSelector('div[jsname="WkxXtf"]');
 
 // Click on the desired option (replace 'משמרת בוקר' with the actual text of the option)
 await page.evaluate(() => {
@@ -36,9 +36,19 @@ await page.evaluate(() => {
   option.click();
 });
 
+// Inject a script into the page to handle the beforeunload event
+await page.evaluateOnNewDocument(() => {
+  window.addEventListener('beforeunload', () => {
+    // Perform cleanup or stop the process here
+    console.log("Stopping the process...");
+    browser.close();
+    return Promise.resolve()
+  });
+});
 
-  await new Promise( res => setTimeout(res, 2 * 60 * 1000))
 
-  await browser.close();
-  return Promise.resolve()
+  // await new Promise( res => setTimeout(res, 10 * 60 * 1000))
+
+  // await browser.close();
+  // return Promise.resolve()
 }
